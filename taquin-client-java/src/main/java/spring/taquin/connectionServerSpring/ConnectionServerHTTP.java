@@ -45,7 +45,8 @@ public class ConnectionServerHTTP {
     private boolean sendRequestHTTPPost(String url,JSONObject data) throws MalformedURLException, ProtocolException, IOException, JSONException{
         
         URL object=new URL(hostnambe+url);
-
+        System.out.println(hostnambe+url);
+        System.out.println(data.toString());
         HttpURLConnection con = (HttpURLConnection) object.openConnection();
         con.setDoOutput(true);
         con.setDoInput(true);
@@ -68,16 +69,16 @@ public class ConnectionServerHTTP {
                     new InputStreamReader(con.getInputStream(), "utf-8"));
             String line = null;  
             while ((line = br.readLine()) != null) {  
-                sb.append(line + "\n");  
+                sb.append(line+ " ");  
                 this.replay=new JSONObject(line);
             }
             br.close();
             
-            //System.out.println("" + sb.toString()); 
+            System.out.println("" + sb.toString()); 
             //*/
             return true;
         } else {
-            System.out.println(con.getResponseMessage());  
+            System.out.println(" Error Send POST:"+con.getResponseMessage());  
             return false;
         }  
 
@@ -124,7 +125,7 @@ public class ConnectionServerHTTP {
             data.put("movements",(movements));
             //System.out.println(data);
             
-            return sendRequestHTTPPost("api/"+player+"/challenge/",data);
+            return sendRequestHTTPPost("api/player/"+player+"/challenge/",data);
         } catch (Exception ex) {
             System.out.println("ERROR : "+ex);
         }

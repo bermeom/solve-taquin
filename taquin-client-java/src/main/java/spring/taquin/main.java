@@ -140,7 +140,7 @@ public class main {
             id=Integer.parseInt(bf.readLine());
              Taquin t;
             Node node1;
-            if(size>=2&&size<=3){
+            if(size>=2&&size<=3){   
                 int nodeID=(gs.get(size-2).getFarthest_node());
                 node1=gs.get(size-2).getBitSet(nodeID);
                 t=gs.get(size-2).getTaquin();
@@ -169,7 +169,7 @@ public class main {
             String id=((new GregorianCalendar()).getTimeInMillis()%100)+"";
             String username="GRUPO7";
             ConnectionServerHTTP csHTTP=new ConnectionServerHTTP("https://taquin-dadsez.c9users.io/");
-            //ConnectionServerHTTP csHTTP=new ConnectionServerHTTP("https://spark-davidcalle94301.c9users.io/");
+            //ConnectionServerHTTP csHTTP=new ConnectionServerHTTP("https://spring-session-bermeom.c9users.io/");
             char opc='1';
             IDA_STAR ida=new IDA_STAR();
             List<List<String > >boars=loadBoards();
@@ -206,7 +206,7 @@ public class main {
             boars.get(5-4).add("20 11 3 4 17 14 1 8 13 16 12 18 21 2 23 5 6 24 19 9 15 10 7 22 0");
             //boars.get(5-4).add("0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24");
             boars.get(5-4).add("3 2 17 0 14 18 22 19 15 20 9 7 10 21 16 6 24 23 8 5 1 4 11 12 13");
-            boars.get(6-4).add("22 23 11 6 9 27 25 8 12 10 5 34 20 18 4 32 24 3 21 19 14 7 30 16 15 33 17 1 26 2 31 13 35 29 28 0");
+            boars.get(6-4).add("0 28 20 34 1 17 22 6 18 35 33 31 2 10 13 19 4 11 21 27 25 24 3 14 29 7 12 16 30 8 26 15 32 5 23 9");
             boars.get(7-4).add("16 22 2 5 6 7 44 8 27 29 10 11 23 35 17 1 20 18 3 14 48 31 25 4 36 34 19 12 9 21 33 42 46 40 41 13 32 30 37 15 26 24 45 39 43 38 28 47 0");
             return boars;
     }
