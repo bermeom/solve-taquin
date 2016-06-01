@@ -112,6 +112,25 @@ public class ConnectionServerHTTP {
         
         return false;
     }
+    public boolean challengeBoard(int movements,int row,int column,int n,int nbits,int sizeBS, BitSet taquin,int player){
+    
+        try {
+            JSONObject data   = new JSONObject();
+            JSONObject rowColum   = new JSONObject();
+            data.put("currentState",Utils.convertArryJSONToBitset(n, nbits, sizeBS, taquin));
+            rowColum.put("row",(row));
+            rowColum.put("column",(column));
+            data.put("blank", rowColum);
+            data.put("movements",(movements));
+            //System.out.println(data);
+            
+            return sendRequestHTTPPost("api/"+player+"/challenge/",data);
+        } catch (Exception ex) {
+            System.out.println("ERROR : "+ex);
+        }
+        
+        return false;
+    }
     
     public boolean moveChip(int idplayer,String direction){
     

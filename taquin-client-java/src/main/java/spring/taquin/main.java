@@ -105,7 +105,7 @@ public class main {
         
     } 
     
-    public static void addBoarad(ConnectionServerHTTP csHTTP,List<Graph> gs, List<List<String > >boars,BufferedReader  bf){
+    public static void addBoard(ConnectionServerHTTP csHTTP,List<Graph> gs, List<List<String > >boars,BufferedReader  bf){
          int size=3;
          try {
           
@@ -129,6 +129,33 @@ public class main {
         } catch (Exception e) {
                     System.out.println("ERROR MAIN: "+e);
        }
+    }
+       public static void challegeBoard(ConnectionServerHTTP csHTTP,List<Graph> gs, List<List<String > >boars,BufferedReader  bf){
+         int size=3,id;
+         try {
+          
+            System.out.println("Size's borad: ");
+            size=Integer.parseInt(bf.readLine());
+            System.out.println("Id player: ");
+            id=Integer.parseInt(bf.readLine());
+             Taquin t;
+            Node node1;
+            if(size>=2&&size<=3){
+                int nodeID=(gs.get(size-2).getFarthest_node());
+                node1=gs.get(size-2).getBitSet(nodeID);
+                t=gs.get(size-2).getTaquin();
+            }else{
+               t=new Taquin(size);
+                System.out.println(boars.size());
+                System.out.println(boars.get(size-4).size());
+                System.out.println(boars.get(size-4).get(0));
+                node1=Utils.convertToStringtToNode(t.getN(), t.getNbits(), t.getSizeBS(),boars.get(size-4).get(0));
+            }
+             System.out.println("Pso");
+            csHTTP.challengeBoard(0,node1.getI_puzzle(),node1.getJ_puzzle(),t.getN(), t.getNbits(), t.getSizeBS(),node1.getTaquinBS(),id);
+        } catch (Exception e) {
+                    System.out.println("ERROR MAIN: "+e);
+       }
             
     
     }
@@ -140,8 +167,8 @@ public class main {
             gs.add(new Graph(2));
             gs.add(new Graph(3));
             String id=((new GregorianCalendar()).getTimeInMillis()%100)+"";
-            String username="JAVA"+id;
-            ConnectionServerHTTP csHTTP=new ConnectionServerHTTP("http://spring-session-bermeom.c9users.io/");
+            String username="GRUPO7";
+            ConnectionServerHTTP csHTTP=new ConnectionServerHTTP("https://taquin-dadsez.c9users.io/");
             //ConnectionServerHTTP csHTTP=new ConnectionServerHTTP("https://spark-davidcalle94301.c9users.io/");
             char opc='1';
             IDA_STAR ida=new IDA_STAR();
@@ -151,11 +178,13 @@ public class main {
                 do{
                     System.out.println("TAQUIN");
                     System.out.println("1. ADD Board");
-                    System.out.println("2. SOLVE Board");
+                    System.out.println("2. Challenge Board");
+                    System.out.println("3. SOLVE Board");
                     opc=(bf.readLine()).charAt(0);
                     switch(opc){
-                        case('1'):addBoarad(csHTTP, gs,boars, bf);break;
-                        case('2'):solveTaquin(csHTTP, gs, bf, username,ida);break;
+                        case('1'):addBoard(csHTTP, gs,boars, bf);break;
+                        case('2'):challegeBoard(csHTTP, gs,boars, bf);break;
+                        case('3'):solveTaquin(csHTTP, gs, bf, username,ida);break;
                     };
                 }while(opc!='0');
             } catch (Exception e) {
@@ -171,10 +200,12 @@ public class main {
             for(int i=0;i<10-4;i++){
                 boars.add(new ArrayList<>());
             }
-            boars.get(4-4).add("1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0");
+            
+            //boars.get(4-4).add("1 2 9 10 13 15 7 6 3 5 8 11 4 14 12 0");
             boars.get(4-4).add("0 12 9 13 15 11 10 14 7 8 5 6 4 3 2 1");
             boars.get(5-4).add("20 11 3 4 17 14 1 8 13 16 12 18 21 2 23 5 6 24 19 9 15 10 7 22 0");
-            boars.get(5-4).add("0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24");
+            //boars.get(5-4).add("0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24");
+            boars.get(5-4).add("3 2 17 0 14 18 22 19 15 20 9 7 10 21 16 6 24 23 8 5 1 4 11 12 13");
             boars.get(6-4).add("22 23 11 6 9 27 25 8 12 10 5 34 20 18 4 32 24 3 21 19 14 7 30 16 15 33 17 1 26 2 31 13 35 29 28 0");
             boars.get(7-4).add("16 22 2 5 6 7 44 8 27 29 10 11 23 35 17 1 20 18 3 14 48 31 25 4 36 34 19 12 9 21 33 42 46 40 41 13 32 30 37 15 26 24 45 39 43 38 28 47 0");
             return boars;
