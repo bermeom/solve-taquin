@@ -152,7 +152,7 @@ public class main {
                 node1=Utils.convertToStringtToNode(t.getN(), t.getNbits(), t.getSizeBS(),boars.get(size-4).get(0));
             }
              System.out.println("Pso");
-            csHTTP.challengeBoard(0,node1.getI_puzzle(),node1.getJ_puzzle(),t.getN(), t.getNbits(), t.getSizeBS(),node1.getTaquinBS(),id);
+             csHTTP.challengeBoard(0,node1.getI_puzzle(),node1.getJ_puzzle(),t.getN(), t.getNbits(), t.getSizeBS(),node1.getTaquinBS(),id);
         } catch (Exception e) {
                     System.out.println("ERROR MAIN: "+e);
        }
@@ -168,13 +168,19 @@ public class main {
             gs.add(new Graph(3));
             String id=((new GregorianCalendar()).getTimeInMillis()%100)+"";
             String username="GRUPO7";
-            ConnectionServerHTTP csHTTP=new ConnectionServerHTTP("https://taquin-dadsez.c9users.io/");
-            //ConnectionServerHTTP csHTTP=new ConnectionServerHTTP("https://spring-session-bermeom.c9users.io/");
+            //ConnectionServerHTTP csHTTP=new ConnectionServerHTTP("https://taquin-dadsez.c9users.io/");
+            ConnectionServerHTTP csHTTP=new ConnectionServerHTTP("https://spring-session-bermeom.c9users.io/");
             char opc='1';
             IDA_STAR ida=new IDA_STAR();
             List<List<String > >boars=loadBoards();
             System.out.println(boars.size());
+            int id_;
+            
             try {
+                System.out.println("ID: ");
+                id_=Integer.parseInt(bf.readLine());
+                csHTTP.creatGamer(id_, username);
+ 
                 do{
                     System.out.println("TAQUIN");
                     System.out.println("1. ADD Board");
