@@ -118,7 +118,7 @@ public class IDA_STAR {
     }
    
     public long search(Node node,long g,long bound){
-        long min=bound*bound+g,min2,f,h;   
+        long min=bound+g,min2,f,h;   
         int i,j;
         Node aux,min_ = null;
         PriorityQueue<NodeSearch> fs=new PriorityQueue<NodeSearch>(new NodeSearchComparator());
@@ -129,10 +129,13 @@ public class IDA_STAR {
         while(!fs.isEmpty()){
             ns=fs.poll();
             f=ns.getF();
-            /*
-            System.out.println(fs.size());
-            System.out.println("===-======= F= "+f+" G= "+ns.getG()+" H= "+ns.getH()+" "+Heuristics.hDistanceManhattan(ns.getNode(), this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS));
-            System.out.println("\t"+Utils.bitSetToStringln(this.n, this.nbits, this.sizeBS, ns.getNode().getTaquinBS()));
+            h=Heuristics.hDistanceManhattan(ns.getNode(), this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS);
+            
+            if (((double)bound)*0.05>=(double)h){
+                System.out.println(fs.size()+" "+h+" "+((double)bound)*0.1);
+                System.out.println("===-======= F= "+f+" G= "+ns.getG()+" H= "+ns.getH()+" "+h);
+                System.out.println("\t"+Utils.bitSetToStringln(this.n, this.nbits, this.sizeBS, ns.getNode().getTaquinBS()));
+            }
             //*/
             if(is_goal(ns.getNode())){
                 System.out.println("====+====== F= "+f+" G= "+ns.getG()+" H= "+ns.getH()+" "+Heuristics.hDistanceManhattan(ns.getNode(), this.allDistanceManhattan.get(this.n-2),this.n,this.nbits,sizeBS));
@@ -165,20 +168,36 @@ public class IDA_STAR {
                         //fs.add(new NodeSearch((long)((double)h*Math.sqrt((double)h+ns.getG()+1)), ns.getG()+1 , aux));
                         if(this.n==4){
                             fs.add(new NodeSearch(h, ns.getG()+1 , aux));
-                        }else if(this.n==5){
-                          fs.add(new NodeSearch((long)((double)h*Math.sqrt((double)h+ns.getG()+1)), ns.getG()+1 , aux));
                         }else{
-                            fs.add(new NodeSearch(h*h, ns.getG()+1 , aux));
+                            //System.out.println("->>>>>>>>>>>>>>>>>>--------------|> "+((double)bound)*0.1+" --- "+h);
+                            if(((double)bound)*0.25<(double)h&&this.n>=8){
+                                //System.out.println("Si !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                                h*=h;   
+                            }
+                            if (h<ns.getH()){
+                                fs.add(new NodeSearch(h, ns.getG()+1 , aux));
+                            }else{
+                                fs.add(new NodeSearch((long)((double)h*Math.sqrt((double)h+ns.getG()+1)), ns.getG()+1 , aux));
+                                /*
+                                if(this.n==5){
+                                    fs.add(new NodeSearch((long)((double)h*Math.sqrt((double)h+ns.getG()+1)), ns.getG()+1 , aux));
+                                }else{
+                                    fs.add(new NodeSearch(h*h, ns.getG()+1 , aux));
+                                }
+                                //*/
+                            }
+                            //*/
+                            //fs.add(new NodeSearch(h*h, ns.getG()+1 , aux));
                         }
                         this.maks.put(aux.getTaquinBS(), new Node(ns.getNode().getTaquinBS(),i,j));
                         //fs.
                      }
                 }
             }
-            
-           if (fs.size()>1000000){
+                          
+           if (fs.size()>500000){
                PriorityQueue<NodeSearch> fs1=new PriorityQueue<NodeSearch>(new NodeSearchComparator());
-               for (i=0;i<500000;i++){
+               for (i=0;i<10000;i++){
                    fs1.add(fs.poll());
                }
                fs=new PriorityQueue<NodeSearch>(fs1);

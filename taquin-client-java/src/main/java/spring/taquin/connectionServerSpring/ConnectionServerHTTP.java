@@ -45,8 +45,8 @@ public class ConnectionServerHTTP {
     private boolean sendRequestHTTPPost(String url,JSONObject data) throws MalformedURLException, ProtocolException, IOException, JSONException{
         
         URL object=new URL(hostnambe+url);
-        System.out.println(hostnambe+url);
-        System.out.println(data.toString());
+        //System.out.println(hostnambe+url);
+        //System.out.println(data.toString());
         HttpURLConnection con = (HttpURLConnection) object.openConnection();
         con.setDoOutput(true);
         con.setDoInput(true);
@@ -74,7 +74,7 @@ public class ConnectionServerHTTP {
             }
             br.close();
             
-            System.out.println("" + sb.toString()); 
+            //System.out.println("" + sb.toString()); 
             //*/
             return true;
         } else {
